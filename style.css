@@ -1,0 +1,25 @@
+/*
+Theme Name: WP19
+Description: This is a customised theme for The Specialist Works
+Author: Jacob Herper
+Template: flatsome
+Version: 3.0
+*/
+
+/*************** ADD CUSTOM CSS HERE.   ***************/
+
+@font-face {font-family: 'EuropaGroteskSH-Med';src: url('webfonts/3577EC_0_0.eot');src: url('webfonts/3577EC_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/3577EC_0_0.woff2') format('woff2'),url('webfonts/3577EC_0_0.woff') format('woff'),url('webfonts/3577EC_0_0.ttf') format('truetype');}
+
+body, a{
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif !important;
+}
+h1, h2, h3, h4, h5, h6, a.button{
+    font-family: 'EuropaGroteskSH-Med', sans-serif !important;
+    font-weight: normal !important;
+}
+
+@media only screen and (max-width: 48em) {
+/*************** ADD MOBILE ONLY CSS HERE  ***************/
+
+
+}
