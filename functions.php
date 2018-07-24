@@ -31,8 +31,6 @@ function create_event_taxonomies() {
     );
     register_taxonomy( 'companies', 'events', $args );
 
-
-
     $labels = array(
         'name'                       => _x( 'Positions', 'taxonomy general name', 'wp19' ),
         'singular_name'              => _x( 'Position', 'taxonomy singular name', 'wp19' ),
@@ -61,8 +59,6 @@ function create_event_taxonomies() {
         'rewrite'               => array( 'slug' => 'positions' ),
     );
     register_taxonomy( 'positions', 'speakers', $args );
-
-
 
     $labels = array(
         'name'                       => _x( 'Topics', 'taxonomy general name', 'wp19' ),
@@ -169,11 +165,32 @@ function wp19Agenda( $atts ) {
                     <ol class="agenda-list">';
             }
             // Always insert list element:
-            echo '<li><h3>' . get_the_title() .'</h3>';
-            if( !empty( get_the_content() ) ){
-              echo '<p>'.get_the_content().'</p>';
+
+            $time1 = strtotime(get_field('start_time'));
+            $time2 = strtotime(get_field('end_time'));
+          
+            // Additional: If $time2 is after 0:00 add 1 day to $time2:
+            if($time2 < $time1) {
+                $time2 += 24 * 60 * 60;
             }
-            echo '</li>';
+        
+            // Difference in seconds:
+            $diff = $time2 - $time1;
+        
+            // Convert seconds to duration and print it:
+            $duration = gmdate("i", $diff) . ' mins';
+
+            echo '<li><h3><a href="#'.get_the_ID().'">' . get_the_title() .'</a></h3>';
+            echo '<em><i class="icon-clock"></i> '.$duration.'</em>';
+        ?>
+          <div class="lightboxes">
+            <div id="<?php the_ID(); ?>" class="lightbox-by-id lightbox-content lightbox-white" style="max-width:600px;padding:20px">
+              <h2><?php the_title(); ?></h2>
+              <p><?php the_content(); ?></p>
+            </div>
+          </div>
+        <?php
+              echo '</li>';
             $previous_time = get_field('start_time');
         }
         echo '</ol>';

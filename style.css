@@ -25,7 +25,9 @@ h3,
 h4,
 h5,
 h6,
-a.button {
+a.button,
+h3>a,
+.agenda-list em {
     font-family: 'EuropaGroteskSH-Med', sans-serif !important;
     font-weight: normal !important;
 }
@@ -52,6 +54,7 @@ ol.agenda-list {
     -ms-flex-pack: justify;
     justify-content: space-between;
     list-style: none;
+    margin-bottom: 0;
 }
 
 ol.agenda-list li {
@@ -59,10 +62,25 @@ ol.agenda-list li {
     -ms-flex-positive: 1;
     flex-grow: 1;
     width: 20%;
-    border-top: solid 1px #e6ecef;
-    border-right: solid 1px #e6ecef;
-    padding: 1em;
+    border-top: solid 1px #eee;
+    border-right: solid 1px #eee;
+    padding: 2em 1em;
     min-width: 200px;
+    margin-bottom: 0;
+}
+
+.agenda-list h3 {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.agenda-list em {
+    font-size: .9rem;
+    font-style: normal;
+}
+
+.lightboxes {
+    display: none;
 }
 
 @media only screen and (max-width: 48em) {
