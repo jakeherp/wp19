@@ -106,7 +106,7 @@ function create_post_type() {
       'rewrite' => array('slug' => 'agenda'),
       'taxonomies'  => array( 'speakers', 'companies', 'topics' ),
       'menu_icon' => 'dashicons-clock',
-      'supports' => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail' ),
+      'supports' => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'excerpt' ),
     )
   );
   register_post_type( 'speakers',
@@ -125,3 +125,61 @@ function create_post_type() {
   );
 }
 add_action( 'init', 'create_post_type' );
+
+add_shortcode( 'wp19_agenda', 'wp19Agenda' );
+function wp19Agenda( $atts ) {
+    ob_start();
+
+    extract( shortcode_atts( array (
+        'type'      => 'events',
+        'order'     => 'ASC',
+        'orderby'   => 'start_time',
+        'posts'     => -1,
+    ), $atts ) );
+ 
+    $options = array(
+        'post_type'      => $type,
+        'order'          => $order,
+        'orderby'        => $orderby,
+        'posts_per_page' => $posts,
+    );
+ 
+    $query = new WP_Query( $options );
+ 
+    // Add variable to save previous_time:
+    $previous_time = 0;
+    // Add variable to check if there has been a list before:
+    $first_list = true;
+
+    if ( $query->have_posts() ) {
+        echo '<div class="wp19-grid">';
+        while ( $query->have_posts() ){
+            $query->the_post();
+            // Check if start_time is different than previous_time, if yes print agenda-header and start new ol list:
+            if(get_field('start_time') !== $previous_time) {
+                // Always close the last ol list, but not at the first loop, because there has no list been before:
+                if(!$first_list){
+                    echo '</ol>';
+                } else {
+                    $first_list = false;
+                }
+                echo '<div class="agenda-header">
+                    <h2>'.get_field('start_time').' – '.get_field('end_time').'</h2>
+                    </div>
+                    <ol class="agenda-list">';
+            }
+            // Always insert list element:
+            echo '<li><h3>' . get_the_title() .'</h3>';
+            if( !empty( get_the_content() ) ){
+              echo '<p>'.get_the_content().'</p>';
+            }
+            echo '</li>';
+            $previous_time = get_field('start_time');
+        }
+        echo '</ol>';
+        wp_reset_postdata();
+        echo '</div>';
+    }
+    $myvariable = ob_get_clean();
+    return $myvariable;
+}
