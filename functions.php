@@ -132,16 +132,16 @@ function wp19Agenda( $atts ) {
         'orderby'   => 'start_time',
         'posts'     => -1,
     ), $atts ) );
- 
+
     $options = array(
         'post_type'      => $type,
         'order'          => $order,
         'orderby'        => $orderby,
         'posts_per_page' => $posts,
     );
- 
+
     $query = new WP_Query( $options );
- 
+
     // Add variable to save previous_time:
     $previous_time = 0;
     // Add variable to check if there has been a list before:
@@ -168,15 +168,15 @@ function wp19Agenda( $atts ) {
 
             $time1 = strtotime(get_field('start_time'));
             $time2 = strtotime(get_field('end_time'));
-          
+
             // Additional: If $time2 is after 0:00 add 1 day to $time2:
             if($time2 < $time1) {
                 $time2 += 24 * 60 * 60;
             }
-        
+
             // Difference in seconds:
             $diff = $time2 - $time1;
-        
+
             // Convert seconds to duration and print it:
             $duration = gmdate("i", $diff) . ' mins';
 
@@ -185,7 +185,9 @@ function wp19Agenda( $atts ) {
         ?>
           <div class="lightboxes">
             <div id="<?php the_ID(); ?>" class="lightbox-by-id lightbox-content lightbox-white" style="max-width:600px;padding:20px">
+              <?php the_post_thumbnail(); ?>
               <h2><?php the_title(); ?></h2>
+              <em><i class="icon-clock"></i> <?php the_field('start_time') ?> – <?php the_field('end_time') ?></em>
               <p><?php the_content(); ?></p>
             </div>
           </div>

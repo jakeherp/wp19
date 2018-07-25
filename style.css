@@ -27,9 +27,11 @@ h5,
 h6,
 a.button,
 h3>a,
+.lightbox-by-id em,
 .agenda-list em {
     font-family: 'EuropaGroteskSH-Med', sans-serif !important;
     font-weight: normal !important;
+    line-height: 1;
 }
 
 .agenda-header {
@@ -74,13 +76,32 @@ ol.agenda-list li {
     line-height: 1;
 }
 
-.agenda-list em {
-    font-size: .9rem;
+.agenda-list em,
+.lightbox-by-id em {
     font-style: normal;
 }
 
 .lightboxes {
     display: none;
+}
+
+.lightbox-by-id h2 {
+    margin: 1rem 0 0;
+    font-size: 3rem;
+}
+
+.lightbox-by-id em {
+    margin: 0;
+}
+
+.lightbox-by-id p {
+    margin: 1rem 0;
+}
+
+button.mfp-close {
+    background: #e72168;
+    color: #fff !important;
+    opacity: 1 !important;
 }
 
 @media only screen and (max-width: 48em) {
