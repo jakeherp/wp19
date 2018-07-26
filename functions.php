@@ -160,7 +160,7 @@ function wp19Agenda( $atts ) {
                     $first_list = false;
                 }
                 echo '<div class="agenda-header">
-                    <h2>'.get_field('start_time').' – '.get_field('end_time').'</h2>
+                    <h2>'.get_field('start_time').'</h2>
                     </div>
                     <ol class="agenda-list">';
             }
@@ -178,21 +178,20 @@ function wp19Agenda( $atts ) {
             $diff = $time2 - $time1;
 
             // Convert seconds to duration and print it:
-            $duration = gmdate("i", $diff) . ' mins';
+            if ($diff%3600===0){
+                $duration = gmdate("G", $diff) . ' hr(s)';
+            } elseif ($diff <= 3600){
+                $duration = gmdate("i", $diff) . ' min';
+            } else {
+                $duration = gmdate("G:i", $diff) . ' hr';
+            }
 
-            echo '<li><h3><a href="#'.get_the_ID().'">' . get_the_title() .'</a></h3>';
-            echo '<em><i class="icon-clock"></i> '.$duration.'</em>';
-        ?>
-          <div class="lightboxes">
-            <div id="<?php the_ID(); ?>" class="lightbox-by-id lightbox-content lightbox-white" style="max-width:600px;padding:20px">
-              <?php the_post_thumbnail(); ?>
-              <h2><?php the_title(); ?></h2>
-              <em><i class="icon-clock"></i> <?php the_field('start_time') ?> – <?php the_field('end_time') ?></em>
-              <p><?php the_content(); ?></p>
-            </div>
-          </div>
-        <?php
-              echo '</li>';
+            echo '<li><h3>' . get_the_title() .'</h3>';
+                echo '<p>';
+                    the_content();
+                echo '</p>';
+                echo '<em><i class="icon-clock"></i> '.$duration.'</em>';
+            echo '</li>';
             $previous_time = get_field('start_time');
         }
         echo '</ol>';
